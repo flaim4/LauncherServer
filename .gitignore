@@ -1,0 +1,5 @@
+.vscode/
+boost_1_87_0/
+curl-8.12.1/
+
+*.exe
