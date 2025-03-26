@@ -31,6 +31,16 @@ void handle_registrer(http::request<http::string_body>& req, http::response<http
         std::string username = boost::json::value_to<std::string>(json_obj["username"]);
         std::string password = boost::json::value_to<std::string>(json_obj["password"]);
 
+        for (const User& user : users) {
+            if (user.username == username) {
+                res.result(http::status::bad_request);
+                res.set(http::field::content_type, "application/json");
+                res.body() = R"({"error": "Username already taken"})";
+                res.prepare_payload();
+                return;
+            }
+        }
+        
         users.push_back({username, password});
 
         res.result(http::status::ok);
