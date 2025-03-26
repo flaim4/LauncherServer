@@ -1,3 +1,4 @@
+#include <random>
 #include <boost/beast/core.hpp>
 #include <boost/beast/http.hpp>
 #include <boost/json.hpp>
@@ -14,6 +15,20 @@ struct User {
 };
 
 std::vector<User> users;
+
+std::string generate_token(size_t length = 32) {
+    const std::string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(0, chars.size() - 1);
+
+    std::stringstream token;
+    for (size_t i = 0; i < length; ++i) {
+        token << chars[dist(gen)];
+    }
+    return token.str();
+}
+
 
 void handle_registrer(http::request<http::string_body>& req, http::response<http::string_body>& res) {
     try {
@@ -55,11 +70,46 @@ void handle_registrer(http::request<http::string_body>& req, http::response<http
     }
 }
 
-void handle_sing_in(http::request<http::string_body>& req, http::response<http::string_body>& res) {
+void handle_login(http::request<http::string_body>& req, http::response<http::string_body>& res) {
     try {
-        
+        boost::json::value json_val = boost::json::parse(req.body());
+        boost::json::object json_obj = json_val.as_object();
+
+        if (!json_obj.contains("username") || !json_obj.contains("password")) {
+            res.result(http::status::bad_request);
+            res.set(http::field::content_type, "application/json");
+            res.body() = R"({"error": "Missing username or password"})";
+            res.prepare_payload();
+            return;
+        }
+
+        std::string username = boost::json::value_to<std::string>(json_obj["username"]);
+        std::string password = boost::json::value_to<std::string>(json_obj["password"]);
+
+        for (const User& user : users) {
+            if (user.username == username && user.password == password) {
+                std::string token = generate_token();
+
+                boost::json::object response_obj;
+                response_obj["token"] = token;
+
+                res.result(http::status::ok);
+                res.set(http::field::content_type, "application/json");
+                res.body() = boost::json::serialize(response_obj);
+                res.prepare_payload();
+                return;
+            }
+        }
+
+        res.result(http::status::bad_request);
+        res.set(http::field::content_type, "application/json");
+        res.body() =  R"({"error": "Login or password is incorrect"})";
+        res.prepare_payload();
     } catch(std::exception& e) {
-        
+        res.result(http::status::bad_request);
+        res.set(http::field::content_type, "application/json");
+        res.body() =  R"({"error": "Invalid JSON format"})";
+        res.prepare_payload();
     }
 }
 
@@ -84,6 +134,8 @@ int main() {
             
             if (req.target() == "/register" && req.method() == http::verb::post) {
                 handle_registrer(req, res);
+            } else if (req.target() == "/login" && req.method() == http::verb::post) {
+                handle_login(req, res);
             } else {
                 res.result(http::status::not_found);
                 res.body() = "Not Found";
