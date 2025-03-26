@@ -8,23 +8,15 @@ namespace beast = boost::beast;
 namespace http = beast::http;
 using tcp = boost::asio::ip::tcp;
 
-void handle_request(http::request<http::string_body>& req, http::response<http::string_body>& res) {
-    res.version(req.version());
-    
-    res.result(http::status::ok);
-    
-    res.set(http::field::server, "C++ HTTP Server");
-    
-    res.set(http::field::content_type, "text/html");
-    
-    res.body() = "<h1>Hello from Boost.Beast!</h1>";
-    
-    res.prepare_payload();
-}
+struct User {
+    std::string username;
+    std::string password;
+};
 
-void handle_signup(http::request<http::string_body>& req, http::response<http::string_body>& res) {
+std::vector<User> users;
+
+void handle_registrer(http::request<http::string_body>& req, http::response<http::string_body>& res) {
     try {
-
         boost::json::value json_val = boost::json::parse(req.body());
         boost::json::object json_obj = json_val.as_object();
 
@@ -39,12 +31,13 @@ void handle_signup(http::request<http::string_body>& req, http::response<http::s
         std::string username = boost::json::value_to<std::string>(json_obj["username"]);
         std::string password = boost::json::value_to<std::string>(json_obj["password"]);
 
+        users.push_back({username, password});
+
         res.result(http::status::ok);
         res.set(http::field::content_type, "application/json");
-        res.body() = R"({"message": "Signup successful!"})";
+        res.body() = R"({"message": "You have successfully registered."})";
         res.prepare_payload();
-
-    } catch(const std::exception& e) {
+    } catch(std::exception& e) {
         res.result(http::status::bad_request);
         res.set(http::field::content_type, "application/json");
         res.body() =  R"({"error": "Invalid JSON format"})";
@@ -52,15 +45,7 @@ void handle_signup(http::request<http::string_body>& req, http::response<http::s
     }
 }
 
-void registrer(http::request<http::string_body>& req, http::response<http::string_body>& res) {
-    try {
-
-    } catch(std::exception& e) {
-        
-    }
-}
-
-void singIn(http::request<http::string_body>& req, http::response<http::string_body>& res) {
+void handle_sing_in(http::request<http::string_body>& req, http::response<http::string_body>& res) {
     try {
         
     } catch(std::exception& e) {
@@ -87,8 +72,8 @@ int main() {
             
             http::response<http::string_body> res;
             
-            if (req.target() == "/signup" && req.method() == http::verb::post) {
-                handle_signup(req, res);
+            if (req.target() == "/register" && req.method() == http::verb::post) {
+                handle_registrer(req, res);
             } else {
                 res.result(http::status::not_found);
                 res.body() = "Not Found";
