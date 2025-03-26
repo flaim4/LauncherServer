@@ -52,6 +52,22 @@ void handle_signup(http::request<http::string_body>& req, http::response<http::s
     }
 }
 
+void registrer(http::request<http::string_body>& req, http::response<http::string_body>& res) {
+    try {
+
+    } catch(std::exception& e) {
+        
+    }
+}
+
+void singIn(http::request<http::string_body>& req, http::response<http::string_body>& res) {
+    try {
+        
+    } catch(std::exception& e) {
+        
+    }
+}
+
 int main() {
     try {
         boost::asio::io_context io_context;
