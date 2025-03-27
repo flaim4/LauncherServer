@@ -1,4 +1,5 @@
 #include <random>
+#include <unordered_map>
 #include <boost/beast/core.hpp>
 #include <boost/beast/http.hpp>
 #include <boost/json.hpp>
@@ -15,6 +16,7 @@ struct User {
 };
 
 std::vector<User> users;
+std::unordered_map<std::string, std::string> active_sessions;
 
 std::string generate_token(size_t length = 32) {
     const std::string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -89,6 +91,12 @@ void handle_login(http::request<http::string_body>& req, http::response<http::st
         for (const User& user : users) {
             if (user.username == username && user.password == password) {
                 std::string token = generate_token();
+
+                while (active_sessions.find(token) != active_sessions.end()) {
+                    token = generate_token();
+                }
+                
+                active_sessions[token] = username;
 
                 boost::json::object response_obj;
                 response_obj["token"] = token;
