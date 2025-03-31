@@ -1,0 +1,1 @@
+g++ -std=c++17 -I C:/Users/flaim/Desktop/LauncherServer/boost_1_87_0 -I C:/Users/flaim/Desktop/LauncherServer/json -L C:/Users/flaim/Desktop/LauncherServer/boost_1_87_0/stage/lib ./src/LauncherServer.cpp -o server.exe -lboost_system-mgw13-mt-d-x64-1_87 -lboost_thread-mgw13-mt-d-x64-1_87 -lboost_json-mgw13-mt-d-x64-1_87 -lws2_32
