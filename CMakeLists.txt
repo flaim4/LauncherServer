@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 
 project(LauncherServer)
 
+set(CMAKE_CXX_STANDARD 17)
+
 include_directories(${CMAKE_SOURCE_DIR}/boost_1_87_0)
 include_directories(${CMAKE_SOURCE_DIR}/json)
 
@@ -17,6 +19,7 @@ target_link_libraries(LauncherServer
         ${CMAKE_SOURCE_DIR}/libboost_json.a
         ${CMAKE_SOURCE_DIR}/libboost_system.a
         ${CMAKE_SOURCE_DIR}/libboost_thread.a
+        ${CMAKE_SOURCE_DIR}/mswsock.dll
         ws2_32
 )
 
