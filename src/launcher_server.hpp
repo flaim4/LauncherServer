@@ -20,10 +20,10 @@ extern std::vector<User> users;
 extern std::unordered_map<std::string, std::string> active_sessions;
 extern std::vector<std::thread> threads;
 
-
 class http_session : public std::enable_shared_from_this<http_session> {
 public:
     http_session(tcp::socket socket);
+
     void start();
 
 private:
@@ -33,7 +33,9 @@ private:
     boost::beast::http::response<boost::beast::http::string_body> res_;
 
     void do_read();
+
     void handle_request();
+
     void do_write();
 };
 

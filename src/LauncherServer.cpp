@@ -6,6 +6,7 @@
 #include <boost/beast/core.hpp>
 #include <boost/beast/http.hpp>
 #include <boost/json.hpp>
+#include <../src/handlers/handle_file_download.hpp>
 #include <boost/asio.hpp>
 #include <iostream>
 #include "launcher_server.hpp"
@@ -45,6 +46,8 @@ void http_session::handle_request() {
         handle_login(req_, res_);
     } else if (req_.target() == "/logout" && req_.method() == http::verb::post) {
         handle_logout(req_, res_);
+    } else if (req_.target() == "/download" && req_.method() == http::verb::get) {
+        handle_file_download(req_, res_);
     } else {
         res_.result(http::status::not_found);
         res_.body() = "Not Found";
@@ -80,7 +83,6 @@ void main_thread() {
 
         async_accept(acceptor, io_context);
         io_context.run();
-
     } catch (const std::exception &e) {
         std::cerr << "Error in main thread: " << e.what() << std::endl;
     }
