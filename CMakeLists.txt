@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.10)
 
 project(LauncherServer)
 
+find_package(Boost 1.74 REQUIRED json)
+
+
 set(CMAKE_CXX_STANDARD 17)
 
 
