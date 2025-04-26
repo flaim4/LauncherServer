@@ -3,24 +3,28 @@ cmake_minimum_required(VERSION 3.10)
 project(LauncherServer)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-include_directories(${CMAKE_SOURCE_DIR}/boost_1_87_0)
-include_directories(${CMAKE_SOURCE_DIR}/json)
+find_package(Boost REQUIRED COMPONENTS system thread json)
 
-add_executable(LauncherServer
-        ${CMAKE_SOURCE_DIR}/src/LauncherServer.cpp
-        ${CMAKE_SOURCE_DIR}/src/handlers/register_handler.cpp
-        ${CMAKE_SOURCE_DIR}/src/handlers/login_handler.cpp
-        ${CMAKE_SOURCE_DIR}/src/handlers/logout_handler.cpp
-        ${CMAKE_SOURCE_DIR}/src/utility/flaim.cpp
+include_directories(
+    ${Boost_INCLUDE_DIRS}
+    ${CMAKE_SOURCE_DIR}/json
 )
+
+set(SOURCES
+    src/LauncherServer.cpp
+    src/handlers/register_handler.cpp
+    src/handlers/login_handler.cpp
+    src/handlers/logout_handler.cpp
+    src/utility/flaim.cpp
+)
+
+add_executable(LauncherServer ${SOURCES})
 
 target_link_libraries(LauncherServer
-        ${CMAKE_SOURCE_DIR}/libboost_json.a
-        ${CMAKE_SOURCE_DIR}/libboost_system.a
-        ${CMAKE_SOURCE_DIR}/libboost_thread.a
-        ${CMAKE_SOURCE_DIR}/mswsock.dll
-        ws2_32
+    Boost::system
+    Boost::thread
+    Boost::json
+    pthread
 )
-
-set(CMAKE_EXE_LINKER_FLAGS "-static")
