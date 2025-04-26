@@ -24,8 +24,3 @@ include_directories(${BOOST_INCLUDE})
 set(CMAKE_EXE_LINKER_FLAGS "-static")
 
 find_package(Boost 1.77 REQUIRED COMPONENTS json system thread)
-
-if(Boost_FOUND)
-    include_directories(${Boost_INCLUDE_DIRS})
-    target_link_libraries(LauncherServer ${Boost_LIBRARIES})
-endif()
