@@ -4,31 +4,23 @@ project(LauncherServer)
 
 set(CMAKE_CXX_STANDARD 17)
 
+set(BOOST_ROOT "/app/boost_install")
 
-include_directories(
-    ${CMAKE_SOURCE_DIR}/../app_src/boost_1_87_0
-    ${CMAKE_SOURCE_DIR}/../app_src/json
+find_package(Boost 1.77 REQUIRED)
+
+include_directories(${Boost_INCLUDE_DIRS})
+
+add_executable(LauncherServer
+    ${CMAKE_SOURCE_DIR}/src/LauncherServer.cpp
+    ${CMAKE_SOURCE_DIR}/src/handlers/register_handler.cpp
+    ${CMAKE_SOURCE_DIR}/src/handlers/login_handler.cpp
+    ${CMAKE_SOURCE_DIR}/src/handlers/logout_handler.cpp
+    ${CMAKE_SOURCE_DIR}/src/utility/flaim.cpp
 )
-
-
-add_subdirectory(/app_src/boost_json)
-include_directories(${CMAKE_SOURCE_DIR}/boost_json)
-
-
-
-set(SOURCES
-    ../app_src/src/LauncherServer.cpp
-    ../app_src/src/handlers/register_handler.cpp
-    ../app_src/src/handlers/login_handler.cpp
-    ../app_src/src/handlers/logout_handler.cpp
-    ../app_src/src/utility/flaim.cpp
-)
-
-add_executable(LauncherServer ${SOURCES})
 
 target_link_libraries(LauncherServer
-    ../app_src/libboost_json.a
-    ../app_src/libboost_system.a
-    ../app_src/libboost_thread.a
-    pthread
+    Boost::Boost
+    ws2_32
 )
+
+set(CMAKE_EXE_LINKER_FLAGS "-static")
