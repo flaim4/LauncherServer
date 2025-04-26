@@ -11,7 +11,7 @@ include_directories(
 )
 
 
-add_subdirectory(/app/boost_json)
+add_subdirectory(/app_src/boost_json)
 include_directories(${CMAKE_SOURCE_DIR}/boost_json)
 
 
