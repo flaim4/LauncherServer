@@ -11,7 +11,6 @@ include_directories(
 )
 
 
-find_package(Boost 1.74 REQUIRED json)
 add_subdirectory(/app/boost_json)
 include_directories(${CMAKE_SOURCE_DIR}/boost_json)
 
