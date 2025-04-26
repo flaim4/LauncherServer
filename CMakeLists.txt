@@ -4,10 +4,6 @@ project(LauncherServer)
 
 set(CMAKE_CXX_STANDARD 17)
 
-find_package(Boost 1.87.0 REQUIRED)
-
-include_directories(${Boost_INCLUDE_DIRS})
-
 add_executable(LauncherServer
     ${CMAKE_SOURCE_DIR}/src/LauncherServer.cpp
     ${CMAKE_SOURCE_DIR}/src/handlers/register_handler.cpp
@@ -17,8 +13,13 @@ add_executable(LauncherServer
 )
 
 target_link_libraries(LauncherServer
-    Boost::Boost
-    ws2_32
+         $BOOST_LIB}/libboost_json.a
+         ${BOOST_LIB}/libboost_system.a
+         ${BOOST_LIB}/libboost_thread.a
+         ${BOOST_LIB}/mswsock.dll
+         ws2_32
 )
+
+include_directories(${BOOST_INCLUDE})
 
 set(CMAKE_EXE_LINKER_FLAGS "-static")
