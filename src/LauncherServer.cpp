@@ -6,7 +6,7 @@
 #include <boost/beast/core.hpp>
 #include <boost/beast/http.hpp>
 #include <boost/json.hpp>
-#include "handlers/handle_file_download.hpp"
+//#include "handlers/handle_file_download.hpp"
 #include <boost/asio.hpp>
 #include <iostream>
 #include "launcher_server.hpp"
@@ -47,7 +47,7 @@ void http_session::handle_request() {
     } else if (req_.target() == "/logout" && req_.method() == http::verb::post) {
         handle_logout(req_, res_);
     } else if (req_.target() == "/download" && req_.method() == http::verb::get) {
-        handle_file_download(req_, res_);
+        //handle_file_download(req_, res_);
     } else {
         res_.result(http::status::not_found);
         res_.body() = "Not Found";
