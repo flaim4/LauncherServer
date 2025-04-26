@@ -4,7 +4,7 @@ project(LauncherServer)
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(BOOST_ROOT "/app/boost_install")
+set(BOOST_ROOT "/boost")
 
 find_package(Boost 1.77 REQUIRED)
 
