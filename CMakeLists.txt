@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(BOOST_ROOT "/boost")
 
-find_package(Boost 1.87 REQUIRED)
+find_package(Boost 1.87.0 REQUIRED)
 
 include_directories(${Boost_INCLUDE_DIRS})
 
