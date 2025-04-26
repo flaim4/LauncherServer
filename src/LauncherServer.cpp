@@ -79,7 +79,8 @@ void async_accept(tcp::acceptor &acceptor, boost::asio::io_context &io_context) 
 void main_thread() {
     try {
         boost::asio::io_context io_context;
-        tcp::acceptor acceptor(io_context, {tcp::v4(), 8080});
+        tcp::acceptor acceptor(io_context, {tcp::v4(), std::stoi(std::getenv("PORT") ? std::getenv("PORT") : "8080")});
+
 
         async_accept(acceptor, io_context);
         io_context.run();
