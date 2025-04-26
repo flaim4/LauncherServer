@@ -80,7 +80,7 @@ void main_thread() {
     try {
         boost::asio::io_context io_context;
         tcp::acceptor acceptor(io_context, {tcp::v4(), 6002});
-        printf("Run");
+        printf("Run2");
 
 
         async_accept(acceptor, io_context);
@@ -92,6 +92,7 @@ void main_thread() {
 
 int main() {
     try {
+        printf("Run1");
         std::thread t(main_thread);
         t.join();
     } catch (std::exception &e) {
