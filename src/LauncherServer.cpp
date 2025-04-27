@@ -92,7 +92,7 @@ void main_thread() {
 
 int main() {
     try {
-        printf("Run1");
+        std::cerr << "Run1" << std::endl;
         std::thread t(main_thread);
         t.join();
     } catch (std::exception &e) {
