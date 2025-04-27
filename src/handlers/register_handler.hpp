@@ -3,7 +3,6 @@
 
 #include <boost/beast/http.hpp>
 
-void handle_registrer(boost::beast::http::request<boost::beast::http::string_body>& req,
-                      boost::beast::http::response<boost::beast::http::string_body>& res);
+void handle_registrer(const http::request<http::string_body>& req, http::response<http::string_body>& res);
 
 #endif

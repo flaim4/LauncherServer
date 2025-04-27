@@ -7,7 +7,7 @@
 #include <iostream>
 #include "../launcher_server.hpp"
 
-void handle_registrer(http::request<http::string_body> &req, http::response<http::string_body> &res)
+void handle_registrer(const http::request<http::string_body>& req, http::response<http::string_body>& res)
 {
     try
     {

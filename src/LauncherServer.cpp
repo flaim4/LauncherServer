@@ -12,6 +12,9 @@
 #include "launcher_server.hpp"
 #include <thread>
 #include <memory>
+#include "utility/router.h"
+
+Router::router _router;
 
 namespace beast = boost::beast;
 namespace http = beast::http;
@@ -40,19 +43,7 @@ void http_session::do_read() {
 }
 
 void http_session::handle_request() {
-    if (req_.target() == "/register" && req_.method() == http::verb::post) {
-        handle_registrer(req_, res_);
-    } else if (req_.target() == "/login" && req_.method() == http::verb::post) {
-        handle_login(req_, res_);
-    } else if (req_.target() == "/logout" && req_.method() == http::verb::post) {
-        handle_logout(req_, res_);
-    } else if (req_.target() == "/download" && req_.method() == http::verb::get) {
-        //handle_file_download(req_, res_);
-    } else {
-        res_.result(http::status::not_found);
-        res_.body() = "Not Found";
-        res_.set(http::field::content_type, "text/plain");
-    }
+    _router.handle_request(req_, res_);
 
     do_write();
 }
@@ -80,8 +71,6 @@ void main_thread() {
     try {
         boost::asio::io_context io_context;
         tcp::acceptor acceptor(io_context, {tcp::v4(), 6002});
-        printf("Run2");
-
 
         async_accept(acceptor, io_context);
         io_context.run();
@@ -91,8 +80,13 @@ void main_thread() {
 }
 
 int main() {
+    _router.add_route("/register", http::verb::post, handle_registrer);
+    _router.add_route("/login", http::verb::post, handle_login);
+    _router.add_route("/logout", http::verb::post, handle_logout);
+
+
+
     try {
-        printf("Run1");
         std::thread t(main_thread);
         t.join();
     } catch (std::exception &e) {
