@@ -85,6 +85,7 @@ int main() {
     _router.add_route("/login", http::verb::post, handle_login);
     _router.add_route("/logout", http::verb::post, handle_logout);
     _router.add_route("/manifest/v1", http::verb::get, handle_manifest);
+    _router.add_route("/manifest/v1/edit", http::verb::post, handle_manifest);
 
 
 
