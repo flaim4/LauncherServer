@@ -1,3 +1,4 @@
+#pragma once
 #ifndef LOGOUT_HANDLER_HPP
 #define LOGOUT_HANDLER_HPP
 

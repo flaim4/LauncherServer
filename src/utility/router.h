@@ -1,5 +1,5 @@
-#ifndef DATABSE_HELPER
-#define DATABSE_HELPER
+#ifndef ROUTER
+#define ROUTER
 
 #include <functional>
 #include <unordered_map>

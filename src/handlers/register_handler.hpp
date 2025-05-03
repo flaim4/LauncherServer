@@ -1,3 +1,4 @@
+#pragma once
 #ifndef REGISTER_HANDLER_HPP
 #define REGISTER_HANDLER_HPP
 

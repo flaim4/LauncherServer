@@ -2,6 +2,7 @@
 #include "handlers/login_handler.hpp"
 #include "handlers/register_handler.hpp"
 #include "handlers/logout_handler.hpp"
+#include "handlers/manifest.hpp"
 #include <unordered_map>
 #include <boost/beast/core.hpp>
 #include <boost/beast/http.hpp>
@@ -83,6 +84,7 @@ int main() {
     _router.add_route("/register", http::verb::post, handle_registrer);
     _router.add_route("/login", http::verb::post, handle_login);
     _router.add_route("/logout", http::verb::post, handle_logout);
+    _router.add_route("/manifest/v1", http::verb::get, handle_manifest);
 
 
 

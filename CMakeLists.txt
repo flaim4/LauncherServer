@@ -4,6 +4,12 @@ project(LauncherServer)
 
 set(CMAKE_CXX_STANDARD 17)
 
+set(BOOST_INCLUDE "/home/p2vman/Рабочий стол/AppRun/boost/boost-1.87.0-install/include")
+set(BOOST_LIB "/home/p2vman/Рабочий стол/AppRun/boost/boost-1.87.0-install/lib")
+
+set(MYSQL_INCLUDE "/home/p2vman/Рабочий стол/AppRun/mysql/mysql-connector-c++-9.2.0-linux-glibc2.28-x86-64bit/include")
+set(MYSQL_LIB "/home/p2vman/Рабочий стол/AppRun/mysql/mysql-connector-c++-9.2.0-linux-glibc2.28-x86-64bit/lib64")
+
 link_directories(${BOOST_LIB} ${MYSQL_LIB})
 
 add_executable(LauncherServer
@@ -11,6 +17,7 @@ add_executable(LauncherServer
     ${CMAKE_SOURCE_DIR}/src/handlers/register_handler.cpp
     ${CMAKE_SOURCE_DIR}/src/handlers/login_handler.cpp
     ${CMAKE_SOURCE_DIR}/src/handlers/logout_handler.cpp
+    ${CMAKE_SOURCE_DIR}/src/handlers/manifest.cpp
     ${CMAKE_SOURCE_DIR}/src/utility/flaim.cpp
 )
 

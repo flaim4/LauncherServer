@@ -1,3 +1,4 @@
+#pragma once
 #ifndef HANDLE_FILE_DOWNLOAD_H
 #define HANDLE_FILE_DOWNLOAD_H
 
